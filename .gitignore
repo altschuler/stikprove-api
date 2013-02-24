@@ -1,0 +1,7 @@
+_ReSharper.Stikprove
+*.DotSettings.user
+TestResults
+packages
+Stikprove.Api/Front
+bin/
+obj/

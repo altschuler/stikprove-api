@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f30389bfa24b45cdbf02d48cbc07401c" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="Stikprove.Models.UserRole" Width="1.5" PointX="7" PointY="0.75" />
+        <EntityTypeShape EntityType="Stikprove.Models.Company" Width="1.5" PointX="3.875" PointY="1.25" />
+        <EntityTypeShape EntityType="Stikprove.Models.Status" Width="1.5" PointX="1" PointY="0.75" />
+        <EntityTypeShape EntityType="Stikprove.Models.Translation" Width="1.5" PointX="3.875" PointY="5" />
+        <EntityTypeShape EntityType="Stikprove.Models.User" Width="1.5" PointX="0.5" PointY="3.375" />
+        <AssociationConnector Association="Stikprove.Models.FK_User_Company" />
+        <AssociationConnector Association="Stikprove.Models.FK_User_UserRole" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
