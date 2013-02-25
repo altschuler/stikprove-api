@@ -4,6 +4,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.Helpers;
 using System.Web.Http;
 using Stikprove.Api.Models;
 using Stikprove.Api.Models.Dto;
@@ -52,16 +55,23 @@ namespace Stikprove.Api.Controllers
             }
         }
 
-        public HttpResponseMessage PostUser(User user)
+        public HttpResponseMessage PostUser(UserCreationDto userDto)
         {
             if (ModelState.IsValid)
             {
                 // Check if user name is taken - return 409 CONFLICT if it is
-                if (this.RepositoryContext.UserRepository.GetAll().Any(u => u.Email == user.Email))
+                if (this.RepositoryContext.UserRepository.GetAll().Any(u => u.Email == userDto.Email))
                     return Request.CreateResponse(HttpStatusCode.Conflict);
 
+                var user = Models.User.FromDto(userDto);
+
                 user.CreationDate = DateTime.Now;
-                user.Salt = Guid.NewGuid().ToString();
+
+                // Create a salt from a GUID hashed
+                user.Salt = Crypto.GenerateSalt(32);
+
+                // Calculate the hashed password
+                user.Password = Crypto.HashPassword(userDto.Password + user.Salt);
 
                 this.RepositoryContext.UserRepository.Add(user);
 

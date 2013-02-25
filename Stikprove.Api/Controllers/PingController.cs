@@ -14,8 +14,7 @@ namespace Stikprove.Api.Controllers
     {
         public HttpResponseMessage GetAny()
         {
-            var user = this.RepositoryContext.UserRepository.GetAll()
-                           .SingleOrDefault(u => u.Email == this.User.Identity.Name);
+            var user = this.RepositoryContext.UserRepository.GetAll().SingleOrDefault(u => u.Email == this.User.Identity.Name);
             return this.Request.CreateResponse(HttpStatusCode.OK, UserDto.Create(user));
         }
     }

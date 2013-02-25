@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Web.Helpers;
 using Stikprove.Api.Data;
 
 namespace Stikprove.Api.Modules
@@ -37,8 +38,7 @@ namespace Stikprove.Api.Modules
                 var user = repo.UserRepository.GetAll().SingleOrDefault(u => u.Email == username);
                 if (user == null)
                     return false;
-
-                return user.Password == password;
+                return Crypto.VerifyHashedPassword(user.Password, password + user.Salt);
             }
         }
 
