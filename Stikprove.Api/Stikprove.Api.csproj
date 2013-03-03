@@ -144,7 +144,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Security\Crypto.cs" />
+    <Compile Include="Security\AccessTokenCredentials.cs" />
+    <Compile Include="Security\AuthUtils.cs" />
+    <Compile Include="Security\TokenAuthAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -215,6 +217,9 @@
     <Content Include="Front\.idea\.name" />
     <Content Include="Front\.idea\Front.iml" />
     <Content Include="Front\test\vendor\jasmine-1.3.1\MIT.LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Security\BasicAuthCredentials.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
