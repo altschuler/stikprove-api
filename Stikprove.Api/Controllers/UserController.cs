@@ -4,16 +4,15 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Helpers;
 using System.Web.Http;
 using Stikprove.Api.Models;
 using Stikprove.Api.Models.Dto;
+using Stikprove.Api.Security;
 
 namespace Stikprove.Api.Controllers
 {
-    [Authorize]
+    [TokenAuth]
     public class UserController : AbstractApiController
     {
         public IEnumerable<UserDto> GetUsers()

@@ -12,7 +12,8 @@ namespace Stikprove.Api.Models.Dto
         public CompanyDto Company { get; set; }
         public UserRoleDto Role { get; set; }
         public string EnergyUserName { get; set; }
-        //public string AccessToken { get; set; }
+        public string AccessToken { get; set; }
+        public DateTime? AccessExpiry { get; set; }
 
         static public UserDto Create(User user)
         {
@@ -26,7 +27,8 @@ namespace Stikprove.Api.Models.Dto
                 Phone = user.Phone,
                 Role = UserRoleDto.Create(user.UserRole),
                 EnergyUserName = user.EnergyUserName,
-                //AccessToken = user.AccessToken
+                AccessToken = user.AccessToken,
+                AccessExpiry = user.AccessTokenExpiry
             };
 
             if (user.Company != null)

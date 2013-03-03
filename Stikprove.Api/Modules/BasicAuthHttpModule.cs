@@ -26,11 +26,15 @@ namespace Stikprove.Api.Modules
 
         private void OnApplicationAuthenticateRequest(object sender, EventArgs e)
         {
+            return;
             var request = HttpContext.Current.Request;
             // TODO fix haxx
             if (!request.Path.StartsWith("/api/"))
                 return;
 
+            if (request.Path.StartsWith("/api/login"))
+                return;
+            
             using (var repo = new RepositoryContext())
             {
                 User user = null;

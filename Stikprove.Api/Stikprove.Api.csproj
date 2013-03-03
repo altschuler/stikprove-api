@@ -115,7 +115,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AbstractApiController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
-    <Compile Include="Controllers\PingController.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
     <Compile Include="Controllers\UserRoleController.cs" />
     <Compile Include="Controllers\ITranslationController.cs" />
     <Compile Include="Controllers\TranslationController.cs" />

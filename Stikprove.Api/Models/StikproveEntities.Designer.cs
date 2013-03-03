@@ -1091,6 +1091,54 @@ namespace Stikprove.Api.Models
         private global::System.Int32 _UserRoleId;
         partial void OnUserRoleIdChanging(global::System.Int32 value);
         partial void OnUserRoleIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AccessToken
+        {
+            get
+            {
+                return _AccessToken;
+            }
+            set
+            {
+                OnAccessTokenChanging(value);
+                ReportPropertyChanging("AccessToken");
+                _AccessToken = StructuralObject.SetValidValue(value, true, "AccessToken");
+                ReportPropertyChanged("AccessToken");
+                OnAccessTokenChanged();
+            }
+        }
+        private global::System.String _AccessToken;
+        partial void OnAccessTokenChanging(global::System.String value);
+        partial void OnAccessTokenChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> AccessTokenExpiry
+        {
+            get
+            {
+                return _AccessTokenExpiry;
+            }
+            set
+            {
+                OnAccessTokenExpiryChanging(value);
+                ReportPropertyChanging("AccessTokenExpiry");
+                _AccessTokenExpiry = StructuralObject.SetValidValue(value, "AccessTokenExpiry");
+                ReportPropertyChanged("AccessTokenExpiry");
+                OnAccessTokenExpiryChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _AccessTokenExpiry;
+        partial void OnAccessTokenExpiryChanging(Nullable<global::System.DateTime> value);
+        partial void OnAccessTokenExpiryChanged();
 
         #endregion
 

@@ -68,6 +68,8 @@
           <Property Name="CompanyId" Type="int" />
           <Property Name="EnergyUserName" Type="varchar" MaxLength="100" />
           <Property Name="EnergyPassword" Type="varchar" MaxLength="100" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="100" />
+          <Property Name="AccessTokenExpiry" Type="datetime" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -178,6 +180,8 @@
           <NavigationProperty Name="Company" Relationship="Stikprove.Models.FK_User_Company" FromRole="User" ToRole="Company" />
           <Property Type="Int32" Name="UserRoleId" Nullable="false" />
           <NavigationProperty Name="UserRole" Relationship="Stikprove.Models.FK_User_UserRole" FromRole="User" ToRole="UserRole" />
+          <Property Type="String" Name="AccessToken" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="AccessTokenExpiry" Precision="3" />
         </EntityType>
         <Association Name="FK_User_Company">
           <End Type="Stikprove.Models.Company" Role="Company" Multiplicity="0..1" />
@@ -255,6 +259,8 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="Stikprove.Models.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="AccessTokenExpiry" ColumnName="AccessTokenExpiry" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
                 <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
                 <ScalarProperty Name="EnergyPassword" ColumnName="EnergyPassword" />
                 <ScalarProperty Name="EnergyUserName" ColumnName="EnergyUserName" />
