@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using System.Threading;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
@@ -14,7 +16,7 @@ namespace Stikprove.Api.Security
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
             var authHeader = actionContext.Request.Headers.Authorization;
-            if (!authHeader.Scheme.Equals("token", StringComparison.OrdinalIgnoreCase))
+            if (authHeader == null || !authHeader.Scheme.Equals("token", StringComparison.OrdinalIgnoreCase))
                 return false;
 
             var token = authHeader.Parameter;
@@ -26,7 +28,7 @@ namespace Stikprove.Api.Security
 
             using (var repo = new RepositoryContext())
             {
-                var user = repo.UserRepository.GetAll().SingleOrDefault(u => u.Email == creds.Name);
+                var user = repo.UserRepository.GetById(creds.Id);
                 if (user == null || user.AccessToken == null)
                     return false;
 
@@ -41,8 +43,20 @@ namespace Stikprove.Api.Security
                     return false;
                 }
 
-                return user.AccessToken == creds.TokenValue;
+                if (user.AccessToken == creds.TokenValue)
+                {
+                    var identity = new GenericIdentity(user.Id.ToString());
+                    IPrincipal principal = new GenericPrincipal(identity, null);
+                    Thread.CurrentPrincipal = principal;
+                    
+                    if (HttpContext.Current != null)
+                        HttpContext.Current.User = principal;
+
+                    return true;
+                }
             }
+
+            return false;
         }
     }
 }

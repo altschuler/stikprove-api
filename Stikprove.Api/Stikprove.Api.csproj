@@ -116,6 +116,7 @@
     <Compile Include="Controllers\AbstractApiController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\UserRoleController.cs" />
     <Compile Include="Controllers\ITranslationController.cs" />
     <Compile Include="Controllers\TranslationController.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="Models\IdentifiableEntities.cs" />
     <Compile Include="Models\IIdentifiable.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Modules\BasicAuthHttpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\StikproveEntities.Designer.cs">
       <DependentUpon>StikproveEntities.edmx</DependentUpon>

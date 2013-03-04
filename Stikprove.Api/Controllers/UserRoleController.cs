@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Web.Http;
 using Stikprove.Api.Models;
 using Stikprove.Api.Models.Dto;
+using Stikprove.Api.Security;
 
 namespace Stikprove.Api.Controllers
 {
+    [TokenAuth]
     public class UserRoleController : AbstractApiController
     {
         public IEnumerable<UserRoleDto> GetUserRoles()

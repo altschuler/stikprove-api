@@ -11,14 +11,11 @@ namespace Stikprove.Api.Controllers
 {
     public class AccessController : AbstractApiController
     {
-        public HttpResponseMessage PostLogin(BasicAuthCredentials credentials)
+        public HttpResponseMessage PostLogin(LoginCredentials credentials)
         {
             var user = this.RepositoryContext.UserRepository.GetAll().SingleOrDefault(u => u.Email == credentials.Name);
             
-            if (user == null)
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid login");
-
-            if (!Crypto.VerifyHashedPassword(user.Password, credentials.Password + user.Salt))
+            if (user == null || !Crypto.VerifyHashedPassword(user.Password, credentials.Password + user.Salt))
                 return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid login");
 
             // Generate a new access token

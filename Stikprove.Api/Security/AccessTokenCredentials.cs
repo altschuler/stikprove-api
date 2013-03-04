@@ -6,7 +6,7 @@ namespace Stikprove.Api.Security
 {
     public class AccessTokenCredentials
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
         public string TokenValue { get; set; }
 
         public static AccessTokenCredentials Parse(string base64Token)
@@ -15,12 +15,12 @@ namespace Stikprove.Api.Security
             var credentials = encoding.GetString(Convert.FromBase64String(base64Token));
 
             var separator = credentials.IndexOf(':');
-            var name = credentials.Substring(0, separator);
+            var id = credentials.Substring(0, separator);
             var password = credentials.Substring(separator + 1);
 
             return new AccessTokenCredentials()
             {
-                Name = name,
+                Id = int.Parse(id),
                 TokenValue = password
             };
         }
@@ -29,16 +29,13 @@ namespace Stikprove.Api.Security
         {
             try
             {
-                var encoding = Encoding.GetEncoding("UTF-8");
-                var decoded = encoding.GetString(Convert.FromBase64String(base64Token));
-
-                var regex = new Regex(".*:.*");
-                return regex.IsMatch(decoded);
+                Parse(base64Token);
             }
-            catch (FormatException)
+            catch (Exception)
             {
                 return false;
             }
+            return true;
         }
     }
 }

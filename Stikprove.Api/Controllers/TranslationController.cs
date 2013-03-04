@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Stikprove.Api.Models;
+using Stikprove.Api.Security;
 
 namespace Stikprove.Api.Controllers
 {
+    [TokenAuth]
     public class TranslationController : AbstractApiController, ITranslationController
     {
         public Translation Get(String id)
