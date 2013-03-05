@@ -54,6 +54,7 @@ namespace Stikprove.Api.Controllers
             }
         }
 
+        [TokenAuth(Roles = "administrator")]
         public HttpResponseMessage PostUser(UserCreationDto userDto)
         {
             if (ModelState.IsValid)
@@ -66,10 +67,7 @@ namespace Stikprove.Api.Controllers
 
                 user.CreationDate = DateTime.Now;
 
-                // Create a salt from a GUID hashed
                 user.Salt = Crypto.GenerateSalt(32);
-
-                // Calculate the hashed password
                 user.Password = Crypto.HashPassword(userDto.Password + user.Salt);
 
                 this.RepositoryContext.UserRepository.Add(user);

@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using Stikprove.Api.Models.Dto;
@@ -19,8 +22,14 @@ namespace Stikprove.Api.Models
                 Phone = dto.Phone,
             };
 
-            if (dto.Role != null)
-                user.UserRoleId = dto.Role.Id;
+            foreach (var role in dto.Roles)
+            {
+                user.UserUserRoleRelation.Add(new UserUserRoleRelation
+                {
+                    UserId = user.Id,
+                    UserRoleId = role.Id
+                });
+            }
 
             if (dto.Company != null)
                 user.CompanyId = dto.Company.Id;
@@ -38,8 +47,12 @@ namespace Stikprove.Api.Models
 
         public bool IsInRole(string role)
         {
-            // TODO multiple roles
-            return true;
+            return this.Roles.Any(r => r.Name.Equals(role, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<UserRole> Roles
+        {
+            get { return this.UserUserRoleRelation.Select(r => r.UserRole); }
         }
 
         public IIdentity Identity

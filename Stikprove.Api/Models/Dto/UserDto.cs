@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Stikprove.Api.Models.Dto
 {
@@ -10,7 +12,7 @@ namespace Stikprove.Api.Models.Dto
         public int? Phone { get; set; }
         public string Email { get; set; }
         public CompanyDto Company { get; set; }
-        public UserRoleDto Role { get; set; }
+        public List<UserRoleDto> Roles { get; set; }
         public string EnergyUserName { get; set; }
         public string AccessToken { get; set; }
         public DateTime? AccessExpiry { get; set; }
@@ -25,7 +27,7 @@ namespace Stikprove.Api.Models.Dto
                 LastName = user.LastName,
                 Email = user.Email,
                 Phone = user.Phone,
-                Role = UserRoleDto.Create(user.UserRole),
+                Roles = user.Roles.Select(UserRoleDto.Create).ToList(),
                 EnergyUserName = user.EnergyUserName,
                 AccessToken = user.AccessToken,
                 AccessExpiry = user.AccessTokenExpiry

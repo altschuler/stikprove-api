@@ -219,7 +219,7 @@
     <Content Include="Front\test\vendor\jasmine-1.3.1\MIT.LICENSE" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Security\BasicAuthCredentials.cs" />
+    <Compile Include="Security\LoginCredentials.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

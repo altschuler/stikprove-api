@@ -5,13 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f30389bfa24b45cdbf02d48cbc07401c" Name="Diagram1" ZoomLevel="100">
-        <EntityTypeShape EntityType="Stikprove.Models.UserRole" Width="1.5" PointX="7" PointY="0.75" />
-        <EntityTypeShape EntityType="Stikprove.Models.Company" Width="1.5" PointX="3.875" PointY="1.25" />
-        <EntityTypeShape EntityType="Stikprove.Models.Status" Width="1.5" PointX="1" PointY="0.75" />
-        <EntityTypeShape EntityType="Stikprove.Models.Translation" Width="1.5" PointX="3.875" PointY="5" />
+        <EntityTypeShape EntityType="Stikprove.Models.UserRole" Width="1.5" PointX="6.5" PointY="1.25" />
+        <EntityTypeShape EntityType="Stikprove.Models.Company" Width="1.5" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Stikprove.Models.Status" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Stikprove.Models.Translation" Width="1.5" PointX="2.125" PointY="0.5" />
         <EntityTypeShape EntityType="Stikprove.Models.User" Width="1.5" PointX="0.5" PointY="3.375" />
         <AssociationConnector Association="Stikprove.Models.FK_User_Company" />
-        <AssociationConnector Association="Stikprove.Models.FK_User_UserRole" />
+        <EntityTypeShape EntityType="Stikprove.Models.UserUserRoleRelation" Width="1.5" PointX="6.5" PointY="5" />
+        <AssociationConnector Association="Stikprove.Models.FK_UserUserRoleRelation_User" />
+        <AssociationConnector Association="Stikprove.Models.FK_UserUserRoleRelation_UserRole" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

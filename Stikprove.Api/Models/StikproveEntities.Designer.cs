@@ -20,7 +20,8 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("Stikprove.Models", "FK_User_Company", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Stikprove.Api.Models.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Stikprove.Api.Models.User), true)]
-[assembly: EdmRelationshipAttribute("Stikprove.Models", "FK_User_UserRole", "UserRole", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Stikprove.Api.Models.UserRole), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Stikprove.Api.Models.User), true)]
+[assembly: EdmRelationshipAttribute("Stikprove.Models", "FK_UserUserRoleRelation_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Stikprove.Api.Models.User), "UserUserRoleRelation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Stikprove.Api.Models.UserUserRoleRelation), true)]
+[assembly: EdmRelationshipAttribute("Stikprove.Models", "FK_UserUserRoleRelation_UserRole", "UserRole", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Stikprove.Api.Models.UserRole), "UserUserRoleRelation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Stikprove.Api.Models.UserUserRoleRelation), true)]
 
 #endregion
 
@@ -151,6 +152,22 @@ namespace Stikprove.Api.Models
             }
         }
         private ObjectSet<User> _User;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<UserUserRoleRelation> UserUserRoleRelation
+        {
+            get
+            {
+                if ((_UserUserRoleRelation == null))
+                {
+                    _UserUserRoleRelation = base.CreateObjectSet<UserUserRoleRelation>("UserUserRoleRelation");
+                }
+                return _UserUserRoleRelation;
+            }
+        }
+        private ObjectSet<UserUserRoleRelation> _UserUserRoleRelation;
 
         #endregion
 
@@ -194,6 +211,14 @@ namespace Stikprove.Api.Models
         public void AddToUser(User user)
         {
             base.AddObject("User", user);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the UserUserRoleRelation EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUserUserRoleRelation(UserUserRoleRelation userUserRoleRelation)
+        {
+            base.AddObject("UserUserRoleRelation", userUserRoleRelation);
         }
 
         #endregion
@@ -782,8 +807,7 @@ namespace Stikprove.Api.Models
         /// <param name="email">Initial value of the Email property.</param>
         /// <param name="password">Initial value of the Password property.</param>
         /// <param name="salt">Initial value of the Salt property.</param>
-        /// <param name="userRoleId">Initial value of the UserRoleId property.</param>
-        public static User CreateUser(global::System.Int32 id, global::System.DateTime creationDate, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.String salt, global::System.Int32 userRoleId)
+        public static User CreateUser(global::System.Int32 id, global::System.DateTime creationDate, global::System.String firstName, global::System.String lastName, global::System.String email, global::System.String password, global::System.String salt)
         {
             User user = new User();
             user.Id = id;
@@ -793,7 +817,6 @@ namespace Stikprove.Api.Models
             user.Email = email;
             user.Password = password;
             user.Salt = salt;
-            user.UserRoleId = userRoleId;
             return user;
         }
 
@@ -1071,30 +1094,6 @@ namespace Stikprove.Api.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 UserRoleId
-        {
-            get
-            {
-                return _UserRoleId;
-            }
-            set
-            {
-                OnUserRoleIdChanging(value);
-                ReportPropertyChanging("UserRoleId");
-                _UserRoleId = StructuralObject.SetValidValue(value, "UserRoleId");
-                ReportPropertyChanged("UserRoleId");
-                OnUserRoleIdChanged();
-            }
-        }
-        private global::System.Int32 _UserRoleId;
-        partial void OnUserRoleIdChanging(global::System.Int32 value);
-        partial void OnUserRoleIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String AccessToken
@@ -1188,34 +1187,18 @@ namespace Stikprove.Api.Models
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_User_UserRole", "UserRole")]
-        public UserRole UserRole
+        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_UserUserRoleRelation_User", "UserUserRoleRelation")]
+        public EntityCollection<UserUserRoleRelation> UserUserRoleRelation
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_User_UserRole", "UserRole").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_User_UserRole", "UserRole").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<UserRole> UserRoleReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_User_UserRole", "UserRole");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserUserRoleRelation>("Stikprove.Models.FK_UserUserRoleRelation_User", "UserUserRoleRelation");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserRole>("Stikprove.Models.FK_User_UserRole", "UserRole", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserUserRoleRelation>("Stikprove.Models.FK_UserUserRoleRelation_User", "UserUserRoleRelation", value);
                 }
             }
         }
@@ -1312,18 +1295,206 @@ namespace Stikprove.Api.Models
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_User_UserRole", "User")]
-        public EntityCollection<User> Users
+        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_UserUserRoleRelation_UserRole", "UserUserRoleRelation")]
+        public EntityCollection<UserUserRoleRelation> UserUserRoleRelation
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("Stikprove.Models.FK_User_UserRole", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserUserRoleRelation>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserUserRoleRelation");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("Stikprove.Models.FK_User_UserRole", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserUserRoleRelation>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserUserRoleRelation", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Stikprove.Models", Name="UserUserRoleRelation")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UserUserRoleRelation : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new UserUserRoleRelation object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="userId">Initial value of the UserId property.</param>
+        /// <param name="userRoleId">Initial value of the UserRoleId property.</param>
+        public static UserUserRoleRelation CreateUserUserRoleRelation(global::System.Int32 id, global::System.Int32 userId, global::System.Int32 userRoleId)
+        {
+            UserUserRoleRelation userUserRoleRelation = new UserUserRoleRelation();
+            userUserRoleRelation.Id = id;
+            userUserRoleRelation.UserId = userId;
+            userUserRoleRelation.UserRoleId = userRoleId;
+            return userUserRoleRelation;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private global::System.Int32 _UserId;
+        partial void OnUserIdChanging(global::System.Int32 value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 UserRoleId
+        {
+            get
+            {
+                return _UserRoleId;
+            }
+            set
+            {
+                OnUserRoleIdChanging(value);
+                ReportPropertyChanging("UserRoleId");
+                _UserRoleId = StructuralObject.SetValidValue(value, "UserRoleId");
+                ReportPropertyChanged("UserRoleId");
+                OnUserRoleIdChanged();
+            }
+        }
+        private global::System.Int32 _UserRoleId;
+        partial void OnUserRoleIdChanging(global::System.Int32 value);
+        partial void OnUserRoleIdChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_UserUserRoleRelation_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("Stikprove.Models.FK_UserUserRoleRelation_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("Stikprove.Models.FK_UserUserRoleRelation_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("Stikprove.Models.FK_UserUserRoleRelation_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("Stikprove.Models.FK_UserUserRoleRelation_User", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Stikprove.Models", "FK_UserUserRoleRelation_UserRole", "UserRole")]
+        public UserRole UserRole
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserRole").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserRole").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<UserRole> UserRoleReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserRole>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserRole");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserRole>("Stikprove.Models.FK_UserUserRoleRelation_UserRole", "UserRole", value);
                 }
             }
         }

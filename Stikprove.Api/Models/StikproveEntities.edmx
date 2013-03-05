@@ -11,13 +11,18 @@
           <EntitySet Name="Translation" EntityType="Stikprove.Models.Store.Translation" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="Stikprove.Models.Store.User" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserRole" EntityType="Stikprove.Models.Store.UserRole" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserUserRoleRelation" EntityType="Stikprove.Models.Store.UserUserRoleRelation" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_User_Company" Association="Stikprove.Models.Store.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_UserRole" Association="Stikprove.Models.Store.FK_User_UserRole">
-            <End Role="UserRole" EntitySet="UserRole" />
+          <AssociationSet Name="FK_UserUserRoleRelation_User" Association="Stikprove.Models.Store.FK_UserUserRoleRelation_User">
             <End Role="User" EntitySet="User" />
+            <End Role="UserUserRoleRelation" EntitySet="UserUserRoleRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserUserRoleRelation_UserRole" Association="Stikprove.Models.Store.FK_UserUserRoleRelation_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="UserUserRoleRelation" EntitySet="UserUserRoleRelation" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
@@ -64,7 +69,6 @@
           <Property Name="Phone" Type="int" />
           <Property Name="Password" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="Salt" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="UserRoleId" Type="int" Nullable="false" />
           <Property Name="CompanyId" Type="int" />
           <Property Name="EnergyUserName" Type="varchar" MaxLength="100" />
           <Property Name="EnergyPassword" Type="varchar" MaxLength="100" />
@@ -78,6 +82,14 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="UserUserRoleRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserRoleId" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_User_Company">
           <End Role="Company" Type="Stikprove.Models.Store.Company" Multiplicity="0..1" />
           <End Role="User" Type="Stikprove.Models.Store.User" Multiplicity="*" />
@@ -90,14 +102,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_User_UserRole">
+        <Association Name="FK_UserUserRoleRelation_User">
+          <End Role="User" Type="Stikprove.Models.Store.User" Multiplicity="1" />
+          <End Role="UserUserRoleRelation" Type="Stikprove.Models.Store.UserUserRoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserUserRoleRelation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserUserRoleRelation_UserRole">
           <End Role="UserRole" Type="Stikprove.Models.Store.UserRole" Multiplicity="1" />
-          <End Role="User" Type="Stikprove.Models.Store.User" Multiplicity="*" />
+          <End Role="UserUserRoleRelation" Type="Stikprove.Models.Store.UserUserRoleRelation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserRole">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="User">
+            <Dependent Role="UserUserRoleRelation">
               <PropertyRef Name="UserRoleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -116,9 +140,14 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_UserRole1" Association="Stikprove.Models.FK_User_UserRole">
-            <End EntitySet="UserRole" Role="UserRole" />
-            <End EntitySet="User" Role="User" />
+          <EntitySet Name="UserUserRoleRelation" EntityType="Stikprove.Models.UserUserRoleRelation" />
+          <AssociationSet Name="FK_UserUserRoleRelation_User" Association="Stikprove.Models.FK_UserUserRoleRelation_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserUserRoleRelation" EntitySet="UserUserRoleRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserUserRoleRelation_UserRole" Association="Stikprove.Models.FK_UserUserRoleRelation_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="UserUserRoleRelation" EntitySet="UserUserRoleRelation" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserRole">
@@ -127,7 +156,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Users" Relationship="Stikprove.Models.FK_User_UserRole" FromRole="UserRole" ToRole="User" />
+          <NavigationProperty Name="UserUserRoleRelation" Relationship="Stikprove.Models.FK_UserUserRoleRelation_UserRole" FromRole="UserRole" ToRole="UserUserRoleRelation" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -178,10 +207,9 @@
           <Property Type="String" Name="EnergyUserName" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="EnergyPassword" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="Stikprove.Models.FK_User_Company" FromRole="User" ToRole="Company" />
-          <Property Type="Int32" Name="UserRoleId" Nullable="false" />
-          <NavigationProperty Name="UserRole" Relationship="Stikprove.Models.FK_User_UserRole" FromRole="User" ToRole="UserRole" />
           <Property Type="String" Name="AccessToken" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="AccessTokenExpiry" Precision="3" />
+          <NavigationProperty Name="UserUserRoleRelation" Relationship="Stikprove.Models.FK_UserUserRoleRelation_User" FromRole="User" ToRole="UserUserRoleRelation" />
         </EntityType>
         <Association Name="FK_User_Company">
           <End Type="Stikprove.Models.Company" Role="Company" Multiplicity="0..1" />
@@ -195,14 +223,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_User_UserRole">
-          <End Type="Stikprove.Models.UserRole" Multiplicity="1" Role="UserRole" />
-          <End Type="Stikprove.Models.User" Multiplicity="*" Role="User" />
+        <EntityType Name="UserUserRoleRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="UserRoleId" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Stikprove.Models.FK_UserUserRoleRelation_User" FromRole="UserUserRoleRelation" ToRole="User" />
+          <NavigationProperty Name="UserRole" Relationship="Stikprove.Models.FK_UserUserRoleRelation_UserRole" FromRole="UserUserRoleRelation" ToRole="UserRole" />
+        </EntityType>
+        <Association Name="FK_UserUserRoleRelation_User">
+          <End Type="Stikprove.Models.User" Role="User" Multiplicity="1" />
+          <End Type="Stikprove.Models.UserUserRoleRelation" Role="UserUserRoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserUserRoleRelation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserUserRoleRelation_UserRole">
+          <End Type="Stikprove.Models.UserRole" Role="UserRole" Multiplicity="1" />
+          <End Type="Stikprove.Models.UserUserRoleRelation" Role="UserUserRoleRelation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserRole">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="User">
+            <Dependent Role="UserUserRoleRelation">
               <PropertyRef Name="UserRoleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -261,7 +311,6 @@
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="AccessTokenExpiry" ColumnName="AccessTokenExpiry" />
                 <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
-                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
                 <ScalarProperty Name="EnergyPassword" ColumnName="EnergyPassword" />
                 <ScalarProperty Name="EnergyUserName" ColumnName="EnergyUserName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -272,6 +321,15 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserUserRoleRelation">
+            <EntityTypeMapping TypeName="Stikprove.Models.UserUserRoleRelation">
+              <MappingFragment StoreEntitySet="UserUserRoleRelation">
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

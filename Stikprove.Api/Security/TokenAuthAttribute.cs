@@ -46,13 +46,14 @@ namespace Stikprove.Api.Security
                 if (user.AccessToken == creds.TokenValue)
                 {
                     var identity = new GenericIdentity(user.Id.ToString());
-                    IPrincipal principal = new GenericPrincipal(identity, null);
+                    IPrincipal principal = new GenericPrincipal(identity, user.Roles.Select(r => r.Name).ToArray());
                     Thread.CurrentPrincipal = principal;
                     
                     if (HttpContext.Current != null)
                         HttpContext.Current.User = principal;
 
-                    return true;
+                    // move on to role check
+                    return base.IsAuthorized(actionContext);
                 }
             }
 
