@@ -1,20 +1,32 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using Stikprove.Api.Models;
+using Stikprove.Api.Models.Dto;
 using Stikprove.Api.Security;
 
 namespace Stikprove.Api.Controllers
 {
     [TokenAuth]
-    public class TranslationController : AbstractApiController, ITranslationController
+    public class TranslationController : AbstractApiController
     {
-        public Translation Get(String id)
+        public TranslationDto Get(String id)
         {
+            Translation result = null;
             int dbId;
             if (int.TryParse(id, out dbId))
-                return this.RepositoryContext.TranslationRepository.GetAll().Single(t => t.Id == dbId);
-            
-            return this.RepositoryContext.TranslationRepository.GetAll().Single(t => t.TranslationId == id);
+                result = this.RepositoryContext.TranslationRepository.GetAll().SingleOrDefault(t => t.Id == dbId);
+
+            if (result != null)
+                return TranslationDto.Create(result);
+
+            var translation = this.RepositoryContext.TranslationRepository.GetAll().SingleOrDefault(t => t.TranslationId == id);
+            if (translation == null)
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+
+            return TranslationDto.Create(translation);
         }
     }
 }

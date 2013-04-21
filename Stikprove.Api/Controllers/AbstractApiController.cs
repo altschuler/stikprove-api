@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Stikprove.Api.Data;
+using Stikprove.Api.Security;
 
 namespace Stikprove.Api.Controllers
 {
